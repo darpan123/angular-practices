@@ -1,0 +1,24 @@
+table {
+  width: 100%;
+  max-height: calc(100%);
+}
+
+.container {
+  display: flex;
+  min-height: 100vh; /* Forces to always fill the screen vertically... */
+  min-height: -webkit-fill-available; /* ...except on mobile, when you want to stay within the chrome */
+  .table-container {
+    height: 400px;
+    overflow: auto;
+    min-height: calc(100% - 30px * 2);
+  }
+  .Completed-table {
+    height: 400px;
+    overflow: auto;
+  }
+}
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+  z-index: 10;
+}
