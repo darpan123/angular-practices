@@ -15,6 +15,7 @@ import { MatButtonToggleGroup } from '@angular/material/button-toggle';
   standalone: false,
 })
 export class MatTableCopyToClipboardComponent {
+  currentDate = new Date();
   displayedColumns: string[] = [
     'select',
     'position',
@@ -22,7 +23,15 @@ export class MatTableCopyToClipboardComponent {
     'weight',
     'symbol',
   ];
+  displayedUserColumns: string[] = [
+    'select',
+    'id',
+    'name',
+    'completedClaims',
+    'supervisorId',
+  ];
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  userViewDataSource = new MatTableDataSource<UserElement>(USERVIEW_DATA);
   faCopy = faCopy;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -32,6 +41,8 @@ export class MatTableCopyToClipboardComponent {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.userViewDataSource.paginator = this.paginator;
+    this.userViewDataSource.sort = this.sort;
   }
 
   selection = new SelectionModel<PeriodicElement>(true, []);
@@ -76,10 +87,6 @@ export class MatTableCopyToClipboardComponent {
     }
   }
 
-  /** Whether the button toggle group contains the id as an active value. */
-  isSticky(buttonToggleGroup: MatButtonToggleGroup, id: string) {
-    return (buttonToggleGroup.value || []).indexOf(id) !== -1;
-  }
 }
 
 export interface PeriodicElement {
@@ -110,4 +117,33 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
   { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
+]
+
+export interface UserElement {
+  id: number;
+  name: string;
+  completedClaims: number;
+  supervisorId: string;
+}
+const USERVIEW_DATA: UserElement[] = [
+  { id: 1, name: 'Darpan Meher', completedClaims: 12, supervisorId: 'H' },
+  { id: 2, name: 'Chaitra tc', completedClaims: 32, supervisorId: 'He' },
+  { id: 3, name: 'Mohit Kumar', completedClaims: 22, supervisorId: 'Li' },
+  { id: 4, name: 'Pawan Chawla', completedClaims: 23, supervisorId: 'Be' },
+  { id: 5, name: 'Deepa Gupta', completedClaims: 53, supervisorId: 'B' },
+  { id: 6, name: 'Milano', completedClaims: 22, supervisorId: 'C' },
+  { id: 7, name: 'Nico', completedClaims: 43, supervisorId: 'N' },
+  { id: 8, name: 'Arse', completedClaims: 15, supervisorId: 'O' },
+  { id: 9, name: 'Aurbrey', completedClaims: 18, supervisorId: 'F' },
+  { id: 10, name: 'Roe', completedClaims: 20, supervisorId: 'Ne' },
+  { id: 11, name: 'Joe', completedClaims: 22, supervisorId: 'Na' },
+  { id: 12, name: 'John', completedClaims: 24, supervisorId: 'Mg' },
+  { id: 13, name: 'David', completedClaims: 26, supervisorId: 'Al' },
+  { id: 14, name: 'Silky', completedClaims: 28, supervisorId: 'Si' },
+  { id: 15, name: 'Devendra', completedClaims: 30, supervisorId: 'P' },
+  { id: 16, name: 'Akshay Saini', completedClaims: 32, supervisorId: 'S' },
+  { id: 17, name: 'Pratibha', completedClaims: 35, supervisorId: 'Cl' },
+  { id: 18, name: 'Katrina', completedClaims: 39, supervisorId: 'Ar' },
+  { id: 19, name: 'Akshaya', completedClaims: 39, supervisorId: 'K' },
+  { id: 20, name: 'Shreya', completedClaims: 40, supervisorId: 'Ca' },
 ];

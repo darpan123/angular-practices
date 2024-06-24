@@ -14,6 +14,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [AppComponent, MatTableCopyToClipboardComponent],
@@ -29,7 +31,9 @@ import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
     MatPaginatorModule,
     MatTabsModule,
     MatCheckboxModule,
-    MatSortModule
+    MatSortModule,
+    MatChipsModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent],

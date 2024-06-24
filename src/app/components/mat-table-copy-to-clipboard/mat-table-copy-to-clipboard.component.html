@@ -1,3 +1,32 @@
+<section style="display: flex">
+  <div class="today">{{ currentDate | date : "fullDate" }}</div>
+  <mat-chip-set aria-label="Tasks">
+    <mat-chip>
+      <div>Completed</div>
+      <div>25</div>
+    </mat-chip>
+    <mat-chip>
+      <div>Pending</div>
+      <div>15</div>
+    </mat-chip>
+    <mat-chip>
+      <div>Unassigned</div>
+      <div>30</div>
+    </mat-chip>
+    <mat-chip>
+      <div>Total</div>
+      <div>70</div>
+    </mat-chip>
+  </mat-chip-set>
+  <div class="today">
+    <button mat-flat-button>Upload Main task List</button>
+  </div>
+  <div class="today">
+    <button mat-stroked-button>Remove Task List</button>
+  </div>
+  
+</section>
+
 <section class="container">
   <mat-tab-group>
     <mat-tab label="Completed Tasks">
@@ -90,10 +119,12 @@
             <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-
       </section>
       <section class="paginator">
         <mat-paginator
@@ -104,9 +135,118 @@
         >
         </mat-paginator>
       </section>
-      
     </mat-tab>
-    <mat-tab label="User View"> Content 2 </mat-tab>
+    <mat-tab label="User View">
+      <section class="table-container">
+        <table
+          mat-table
+          [dataSource]="userViewDataSource"
+          matSort
+          (matSortChange)="announceSortChange($event)"
+          class="mat-elevation-z8 Completed-table"
+        >
+          <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-checkbox
+                (change)="$event ? toggleAllRows() : null"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()"
+                [aria-label]="checkboxLabel()"
+              >
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="id">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by number"
+            >
+              User ID
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by name"
+            >
+              User Name
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.name }}
+              <fa-icon
+                [icon]="faCopy"
+                [cdkCopyToClipboard]="element.name"
+              ></fa-icon>
+            </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="completedClaims">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by weight"
+            >
+              Count
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.completedClaims }}
+            </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="supervisorId">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by symbol"
+            >
+              Supervisor ID
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.supervisorId }}
+            </td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedUserColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedUserColumns"></tr>
+        </table>
+      </section>
+      <section class="paginator">
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          aria-label="Select page of periodic elements"
+          class="mat-paginator-sticky"
+        >
+        </mat-paginator>
+      </section>
+    </mat-tab>
     <mat-tab label="Pending Tasks"> Content 3 </mat-tab>
   </mat-tab-group>
 </section>
